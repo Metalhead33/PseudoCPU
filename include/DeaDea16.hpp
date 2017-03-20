@@ -7,14 +7,15 @@ class DeaDea16 : public AbstractProcessor<uint8_t,uint16_t>
 public:
 	//DeaDea16();
 	DeaDea16(uint16_t memsize);
-	DeaDea16(uint8_t* extmem, uint16_t memsize);
+	DeaDea16(const uint8_t* extmem, uint16_t memsize);
 	DeaDea16(SharedMemory shared_mem, uint16_t memsize);
 	DeaDea16(AbstractFread* fileread);
 
 	void RegisterFunctions();
 	enum InstructionList : uint8_t
 	{
-		_EXIT = 128,
+		_NOPE = 128,
+		_EXIT = _NOPE+1,
 		_PANIC = _EXIT+1,
 		// 8-bit Memory Access Instructions
 		_LoadAAC8 = _PANIC+1, // Loads into the Accumulator Register - Absolute
@@ -48,14 +49,16 @@ public:
 		_BNOT = _LNOT+1, // Bitwise NOT (0 operands)
 		_BLSH = _BNOT+1, // Bitwise left shift of the accumulator by the argument (0 operands)
 		_BRSH = _BLSH+1, // Bitwise right shift of the accumulator by the argument (0 operands)
+		_GRTR = _BLSH+1, // Bitwise right shift of the accumulator by the argument (0 operands)
 
 		//Control flow
-		_GOTO = _BRSH+1,
+		_GOTO = _GRTR+1,
 		_IF = _GOTO+1,
 		_IFN = _IF+1
 	};
 
 	// Base Instructions
+	static Pstate NOPE(RegisterStorage str) { return KEEP_GOING; } // Nothing happens.
 	static Pstate InEXIT(RegisterStorage str) { return STOP; } // Self-evident. Stops the machine. (0 operands)
 	static Pstate InPANIC(RegisterStorage str) { return PANIC; } // Self-evident. Force-exits the machine. (0 operands)
 
@@ -91,6 +94,7 @@ public:
 	static Pstate BNOT(RegisterStorage str); // Bitwise NOT (0 operands)
 	static Pstate BLSH(RegisterStorage str); // Bitwise left shift of the accumulator by the argument (0 operands)
 	static Pstate BRSH(RegisterStorage str); // Bitwise right shift of the accumulator by the argument (0 operands)
+	static Pstate GRTR(RegisterStorage str); // Is the accumulator register greater than the argument register? (0 operands)
 
 	// Control flow
 	static Pstate GOTO(RegisterStorage str); // Go to location pointed by the operand (1 operand, 16-bit)

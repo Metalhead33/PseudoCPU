@@ -46,7 +46,7 @@ public:
 		//memspace->resize(memsize);
 		for(int i = 0;i < memsize;++i) memspace->at(i) = 0;
 	}
-	AbstractMemcontainer(uint8_t* extmem, RegisterSize memsize) // Copying from existing memory
+	AbstractMemcontainer(const uint8_t* extmem, RegisterSize memsize) // Copying from existing memory
 		: memspace(new RawMemoryBuffer((size_t)memsize))
 	{
 		m_memsize = memsize;

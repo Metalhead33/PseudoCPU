@@ -27,7 +27,7 @@ public:
 	{
 		;
 	}
-	AbstractProcessor(uint8_t* extmem, OperandSize memsize)
+	AbstractProcessor(const uint8_t* extmem, OperandSize memsize)
 		: AbstractMemcontainer<OperandSize>(extmem,memsize)
 	{
 		;
