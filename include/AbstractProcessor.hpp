@@ -71,7 +71,7 @@ AbsProcFUNC(int,Run)()
 AbsProcFUNC(void, RegisterInstruction)(func_ptr ptr,InstructionSize InstructionCode)
 {
 	IF_DEBUG(
-				std::cout << "Registering function: " << ptr << " - code: " << (int)InstructionCode << std::endl;
+				std::cout << "Registering function: " << (size_t)ptr << " - code: " << (int)InstructionCode << std::endl;
 	)
 	Instructions[InstructionCode] = ptr;
 }

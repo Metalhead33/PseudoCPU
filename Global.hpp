@@ -12,8 +12,6 @@
 #include <iostream>
 #include <cstdint>
 
-#define DEBUG
-
 // From util.h - Written by Daniël Sonck
 #define DEFINE_PTR(a) typedef a *p##a; \
    typedef std::shared_ptr< a > s##a; \

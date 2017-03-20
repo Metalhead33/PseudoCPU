@@ -43,6 +43,22 @@ void DeaDea16::RegisterFunctions()
 	RegisterInstruction(&LoadPAR16, _LoadPAR16);
 	RegisterInstruction(&StoreAC16, _StoreAC16);
 	RegisterInstruction(&StoreAR16, _StoreAR16);
+
+	//Arithmetical and logical instructions
+	RegisterInstruction(&ADD, _ADD);
+	RegisterInstruction(&SUB, _SUB);
+	RegisterInstruction(&MUL, _MUL);
+	RegisterInstruction(&DIV, _DIV);
+	RegisterInstruction(&MOD, _MOD);
+	RegisterInstruction(&LAND, _LAND);
+	RegisterInstruction(&BAND, _BAND);
+	RegisterInstruction(&LOR, _LOR);
+	RegisterInstruction(&BOR, _BOR);
+	RegisterInstruction(&BXOR, _BXOR);
+	RegisterInstruction(&LNOT, _LNOT);
+	RegisterInstruction(&BNOT, _BNOT);
+	RegisterInstruction(&BLSH, _BLSH);
+	RegisterInstruction(&BRSH, _BRSH);
 }
 
 Pstate DeaDea16::Switch(RegisterStorage str)
@@ -207,3 +223,73 @@ Pstate DeaDea16::StoreAR8(RegisterStorage str)
 	return KEEP_GOING;
 } // Stores into the memory from the Argument Register
 
+Pstate DeaDea16:: ADD(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() + str->GetARR());
+	return KEEP_GOING;
+} // Adds the content of registers. (0 operands)
+Pstate DeaDea16:: SUB(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() - str->GetARR());
+	return KEEP_GOING;
+} // Subtracts the content of registers. (0 operands)
+Pstate DeaDea16:: MUL(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() * str->GetARR());
+	return KEEP_GOING;
+} // Multiplies the content of registers. (0 operands)
+Pstate DeaDea16:: DIV(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() / str->GetARR());
+	return KEEP_GOING;
+} // Divides the content of registers. (0 operands)
+Pstate DeaDea16:: MOD(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() % str->GetARR());
+	return KEEP_GOING;
+} // Moduloes the content of registers. (0 operands)
+Pstate DeaDea16:: LAND(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() && str->GetARR());
+	return KEEP_GOING;
+} // Logical AND (0 operands)
+Pstate DeaDea16:: BAND(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() & str->GetARR());
+	return KEEP_GOING;
+} // Bitwise AND (0 operands)
+Pstate DeaDea16:: LOR(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() || str->GetARR());
+	return KEEP_GOING;
+} // Logical Inclusive OR (0 operands)
+Pstate DeaDea16:: BOR(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() | str->GetARR());
+	return KEEP_GOING;
+} // Bitwise Inclusive OR (0 operands)
+Pstate DeaDea16:: BXOR(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() ^ str->GetARR());
+	return KEEP_GOING;
+} // Bitwise Exclusive OR (0 operands)
+Pstate DeaDea16:: LNOT(RegisterStorage str)
+{
+	str->SetACR(!str->GetACR());
+	return KEEP_GOING;
+} // Logical NOT (0 operands)
+Pstate DeaDea16:: BNOT(RegisterStorage str)
+{
+	str->SetACR(~str->GetACR());
+	return KEEP_GOING;
+} // Bitwise NOT (0 operands)
+Pstate DeaDea16:: BLSH(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() << str->GetARR());
+	return KEEP_GOING;
+} // Bitwise left shift of the accumulator by the argument (0 operands)
+Pstate DeaDea16:: BRSH(RegisterStorage str)
+{
+	str->SetACR(str->GetACR() >> str->GetARR());
+	return KEEP_GOING;
+} // Bitwise right shift of the accumulator by the argument (0 operands)
