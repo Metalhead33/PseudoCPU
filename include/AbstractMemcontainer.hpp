@@ -8,19 +8,20 @@
 #include "AbstractFwrite.hpp"
 
 typedef std::vector<uint8_t> RawMemoryBuffer;
+typedef std::shared_ptr<RawMemoryBuffer> SharedMemory;
 
 template <typename RegisterSize> class AbstractMemcontainer
 {
 private:
-	std::shared_ptr<RawMemoryBuffer> memspace;
+	SharedMemory memspace;
 	RegisterSize m_memsize;
 	RegisterSize m_pc; // Program Counter
 	RegisterSize m_acr; // Accumulator Register
 	RegisterSize m_arr; // Argument Register
 public:
-	void* AccessMemory(size_t offset);
+	void* AccessMemory(RegisterSize offset);
 	void* AccessMemAtPC();
-	template <typename T> T* CastAccessMemory(size_t offset) { return static_cast<T*>(AccessMemory(offset)); }
+	template <typename T> T* CastAccessMemory(RegisterSize offset) { return static_cast<T*>(AccessMemory(offset)); }
 	template <typename T> T* CastAccessMemAtPC() { return static_cast<T*>(AccessMemAtPC() ); }
 	//Simple getters-setters
 	RegisterSize GetMemsize() const { return m_memsize; }
@@ -55,7 +56,7 @@ public:
 		//memspace->resize(memsize);
 		for(int i = 0;i < memsize;++i) memspace->at(i) = extmem[i];
 	}
-	AbstractMemcontainer(RawMemoryBuffer* shared_mem, RegisterSize memsize) // Sharing memory with another container
+	AbstractMemcontainer(SharedMemory shared_mem, RegisterSize memsize) // Sharing memory with another container
 		: memspace(shared_mem)
 	{
 		m_memsize = memsize;
@@ -83,10 +84,10 @@ public:
 		m_arr = origins->m_arr;
 	}*/
 };
-#define AbsMemFUNC(rettype,fname) template <typename rsize> rettype AbstractMemcontainer<rsize>::fname
+#define AbsMemFUNC(rettype,fname) template <typename RegisterSize> rettype AbstractMemcontainer<RegisterSize>::fname
 
 //template <typename isize,typename rsize> void* AbstractMemcontainer<isize,rsize>::AccessMemory(size_t offset)
-AbsMemFUNC(void*,AccessMemory)(size_t offset)
+AbsMemFUNC(void*,AccessMemory)(RegisterSize offset)
 {
 	return static_cast<void*>(&memspace->at(offset));
 }
@@ -96,7 +97,7 @@ AbsMemFUNC(void*,AccessMemAtPC)()
 }
 AbsMemFUNC(void,SwitchRegisters)()
 {
-	rsize tmp = m_acr;
+	RegisterSize tmp = m_acr;
 	m_acr = m_arr;
 	m_arr = tmp;
 }

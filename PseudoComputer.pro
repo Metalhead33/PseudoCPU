@@ -5,7 +5,8 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     src/BaseFunc.cpp \
-    src/StdStream.cpp
+    src/StdStream.cpp \
+    src/DeaDea16.cpp
 
 HEADERS += \
     include/BaseFunc.hpp \
@@ -14,4 +15,5 @@ HEADERS += \
     include/AbstractFwrite.hpp \
     include/StdStream.hpp \
     Global.hpp \
-    include/AbstractProcessor.hpp
+    include/AbstractProcessor.hpp \
+    include/DeaDea16.hpp

@@ -1,29 +1,28 @@
 #include <iostream>
 #include <cstdio>
-//#include "include/AbstractMemcontainer.hpp"
-#include "include/AbstractProcessor.hpp"
+#include "include/DeaDea16.hpp"
+#include "include/StdStream.hpp"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-	AbstractProcessor<uint8_t,uint8_t> abtest(128);
-	// Memory access test
-	std::cout << "Memory address: " << abtest.AccessMemory(0) << std::endl;
-	std::cout << "Memory address at PC: " << abtest.AccessMemAtPC() << std::endl;
-	std::cout << "Memory address at 127: " << abtest.AccessMemory(127) << std::endl;
-
-	// Memory writing and reading test
-	uint8_t* datapointer = abtest.CastAccessMemory<uint8_t>(0);
-	datapointer[0] = 0x81;
-	datapointer[1] = 0x82;
-	datapointer[2] = 0x83;
-	datapointer[3] = 0x84;
-	std::cout << "uint8_t[" << abtest.AccessMemory(0) << "] = " << std::dec << (int)datapointer[0] << std::endl;
-	std::cout << "uint8_t[" << abtest.AccessMemory(1) << "] = " << std::dec << (int)datapointer[1] << std::endl;
-	std::cout << "uint8_t[" << abtest.AccessMemory(2) << "] = " << std::dec << (int)datapointer[2] << std::endl;
-	std::cout << "uint8_t[" << abtest.AccessMemory(3) << "] = " << std::dec << (int)datapointer[3] << std::endl;
-	float* floatpointer = abtest.CastAccessMemory<float>(0);
-	std::cout << "uint8_t[" << abtest.AccessMemory(0) << "] = " << floatpointer[0] << std::endl;
+	DeaDea16 deasys(64);
+	uint8_t* storage = deasys.CastAccessMemAtPC<uint8_t>();
+	storage[0] = DeaDea16::_LoadAAC8;
+	storage[1] = 122;
+	storage[2] = DeaDea16::_StoreAC8;
+	//uint16_t* storage2 = reinterpret_cast<uint16_t*>(&storage[3]);
+	//*storage2 = 32;
+	storage[3] = 9;
+	storage[4] = 0;
+	storage[5] = DeaDea16::_EXIT;
+	if(deasys.Run() != -1) {
+	std::cout << "Success!!" << std::endl;
+	StdStream filestream("/home/metalhead33/memtest.raw",false);
+	deasys.MemoryDump(&filestream);
+	filestream.close();
+	}
+	else std::cout << "Failure!" << std::endl;
     return 0;
 }
