@@ -59,6 +59,11 @@ void DeaDea16::RegisterFunctions()
 	RegisterInstruction(&BNOT, _BNOT);
 	RegisterInstruction(&BLSH, _BLSH);
 	RegisterInstruction(&BRSH, _BRSH);
+
+	//Control flow
+	RegisterInstruction(&GOTO, _GOTO);
+	RegisterInstruction(&IF, _IF);
+	RegisterInstruction(&IFN, _IFN);
 }
 
 Pstate DeaDea16::Switch(RegisterStorage str)
@@ -293,3 +298,30 @@ Pstate DeaDea16:: BRSH(RegisterStorage str)
 	str->SetACR(str->GetACR() >> str->GetARR());
 	return KEEP_GOING;
 } // Bitwise right shift of the accumulator by the argument (0 operands)
+
+
+Pstate DeaDea16:: GOTO(RegisterStorage str) // Go to location pointed by the operand (1 operand, 16-bit)
+{
+	uint16_t* operand = str->CastAccessMemAtPC<uint16_t>();
+	IF_DEBUG(
+				std::cout << "Operand Address: " << (size_t)operand << std::endl;
+				std::cout << "GOTO Operand: " << (int)*operand << std::endl;
+	)
+	str->SetPC(*operand);
+	//str->IncrementPC(sizeof(uint16_t));
+	return KEEP_GOING;
+}
+Pstate DeaDea16:: IF(RegisterStorage str)
+{
+	uint16_t* operand = str->CastAccessMemAtPC<uint16_t>();
+	if(str->GetACR()) str->SetPC(*operand);
+	else str->IncrementPC(sizeof(uint16_t));
+	return KEEP_GOING;
+} // Go to the location of the operand, if the ACCR is over 0 (1 operand, 16-bit)
+Pstate DeaDea16:: IFN(RegisterStorage str)
+{
+	uint16_t* operand = str->CastAccessMemAtPC<uint16_t>();
+	if(str->GetACR()) str->SetPC(*operand);
+	else str->IncrementPC(sizeof(uint16_t));
+	return KEEP_GOING;
+} // Go to the location of the operand, if the ACCR is 0 (1 operand, 16-bit)

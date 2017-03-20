@@ -33,6 +33,7 @@ public:
 		_StoreAC16 = _LoadPAR16+1, // Stores into the memory from the Accumulator Register
 		_StoreAR16 = _StoreAC16+1, // Stores into the memory from the Argument Register
 
+		// Arithmetical and logical instructions
 		_ADD = _StoreAR16+1, // Adds the content of registers. (0 operands)
 		_SUB = _ADD+1, // Subtracts the content of registers. (0 operands)
 		_MUL = _SUB+1, // Multiplies the content of registers. (0 operands)
@@ -46,7 +47,12 @@ public:
 		_LNOT = _BXOR+1, // Logical NOT (0 operands)
 		_BNOT = _LNOT+1, // Bitwise NOT (0 operands)
 		_BLSH = _BNOT+1, // Bitwise left shift of the accumulator by the argument (0 operands)
-		_BRSH = _BLSH+1 // Bitwise right shift of the accumulator by the argument (0 operands)
+		_BRSH = _BLSH+1, // Bitwise right shift of the accumulator by the argument (0 operands)
+
+		//Control flow
+		_GOTO = _BRSH+1,
+		_IF = _GOTO+1,
+		_IFN = _IF+1
 	};
 
 	// Base Instructions
@@ -85,6 +91,11 @@ public:
 	static Pstate BNOT(RegisterStorage str); // Bitwise NOT (0 operands)
 	static Pstate BLSH(RegisterStorage str); // Bitwise left shift of the accumulator by the argument (0 operands)
 	static Pstate BRSH(RegisterStorage str); // Bitwise right shift of the accumulator by the argument (0 operands)
+
+	// Control flow
+	static Pstate GOTO(RegisterStorage str); // Go to location pointed by the operand (1 operand, 16-bit)
+	static Pstate IF(RegisterStorage str); // Go to the location of the operand, if the ACCR is over 0 (1 operand, 16-bit)
+	static Pstate IFN(RegisterStorage str); // Go to the location of the operand, if the ACCR is 0 (1 operand, 16-bit)
 };
 
 #endif // DEADEA16_HPP
