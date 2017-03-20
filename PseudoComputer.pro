@@ -13,4 +13,5 @@ HEADERS += \
     include/AbstractFread.hpp \
     include/AbstractFwrite.hpp \
     include/StdStream.hpp \
-    Global.hpp
+    Global.hpp \
+    include/AbstractProcessor.hpp
