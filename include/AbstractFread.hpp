@@ -8,6 +8,8 @@
 #ifndef ABSTRACTFREAD_HPP
 #define ABSTRACTFREAD_HPP
 #include <cstdint>
+#include "Global.hpp"
+DEFINE_CLASS(AbstractFread)
 
 class AbstractFread {
 public:

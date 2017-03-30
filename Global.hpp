@@ -11,6 +11,10 @@
 #include <memory>
 #include <iostream>
 #include <cstdint>
+#include <vector>
+
+typedef std::vector<uint8_t> RawMemoryBuffer;
+typedef std::shared_ptr<RawMemoryBuffer> SharedMemory;
 
 // From util.h - Written by Daniël Sonck
 #define DEFINE_PTR(a) typedef a *p##a; \

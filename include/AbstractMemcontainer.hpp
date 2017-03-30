@@ -1,14 +1,13 @@
 #ifndef ABSTRACTMEMCONTAINER_HPP
 #define ABSTRACTMEMCONTAINER_HPP
-#include <vector>
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
 #include "AbstractFread.hpp"
 #include "AbstractFwrite.hpp"
+#include "Global.hpp"
+#include "DirectMemoryAccess.hpp"
 
-typedef std::vector<uint8_t> RawMemoryBuffer;
-typedef std::shared_ptr<RawMemoryBuffer> SharedMemory;
 
 template <typename RegisterSize> class AbstractMemcontainer
 {
@@ -33,6 +32,8 @@ public:
 	void SetACR(RegisterSize setto) { m_acr = setto; }
 	void SetARR(RegisterSize setto) { m_arr = setto; }
 	void SwitchRegisters();
+
+	sDirectMemoryAccess GrantDirectAccess(RegisterSize start, RegisterSize end);
 
 	void MemoryDump(AbstractFwrite* writer);
 
@@ -104,6 +105,10 @@ AbsMemFUNC(void,SwitchRegisters)()
 AbsMemFUNC(void,MemoryDump)(AbstractFwrite* writer)
 {
 	writer->write(AccessMemory(0),memspace->size());
+}
+AbsMemFUNC(sDirectMemoryAccess,GrantDirectAccess)(RegisterSize start, RegisterSize end)
+{
+	return sDirectMemoryAccess(new DirectMemoryAccess(memspace,start,end));
 }
 
 #endif // ABSTRACTMEMCONTAINER_HPP

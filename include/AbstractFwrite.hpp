@@ -8,6 +8,9 @@
 #ifndef ABSTRACTFWRITE_HPP
 #define ABSTRACTFWRITE_HPP
 #include <cstdint>
+#include "Global.hpp"
+DEFINE_CLASS(AbstractFwrite)
+
 class AbstractFwrite {
 public:
 	virtual ~AbstractFwrite() {;}
