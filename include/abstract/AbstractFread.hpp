@@ -9,6 +9,7 @@
 #define ABSTRACTFREAD_HPP
 #include <cstdint>
 #include "Global.hpp"
+namespace Io {
 DEFINE_CLASS(AbstractFread)
 
 class AbstractFread {
@@ -22,6 +23,6 @@ public:
 private:
 
 };
-
+}
 #endif /* ABSTRACTFREAD_HPP */
 

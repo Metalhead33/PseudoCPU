@@ -8,10 +8,11 @@
 
 #ifndef STDSTREAM_HPP
 #define STDSTREAM_HPP
-#include "AbstractFread.hpp"
-#include "AbstractFwrite.hpp"
+#include "abstract/AbstractFread.hpp"
+#include "abstract/AbstractFwrite.hpp"
 #include <cstdio>
 #include <string>
+namespace Io {
 class StdStream : public AbstractFread, public AbstractFwrite {
 public:
 	StdStream();
@@ -34,5 +35,6 @@ private:
 	FILE* chandle;
 	bool active;
 };
+}
 #endif /* STDSTREAM_HPP */
 

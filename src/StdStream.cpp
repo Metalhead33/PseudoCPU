@@ -7,6 +7,7 @@
 
 #include "include/StdStream.hpp"
 #include "Global.hpp"
+namespace Io {
 
 
 StdStream::StdStream()
@@ -125,4 +126,5 @@ bool StdStream::open(std::string newpath, bool ro)
 char StdStream::getc()
 {
 	return fgetc(chandle);
+}
 }

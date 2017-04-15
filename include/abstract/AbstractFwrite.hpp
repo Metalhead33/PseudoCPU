@@ -9,6 +9,7 @@
 #define ABSTRACTFWRITE_HPP
 #include <cstdint>
 #include "Global.hpp"
+namespace Io {
 DEFINE_CLASS(AbstractFwrite)
 
 class AbstractFwrite {
@@ -20,6 +21,6 @@ public:
 private:
 
 };
-
+}
 #endif /* ABSTRACTFWRITE_HPP */
 

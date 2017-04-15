@@ -1,26 +1,23 @@
 #ifndef INTERRUPT_HPP
 #define INTERRUPT_HPP
-#include <stack>
-#include "Global.hpp"
+#include "abstract/AbstractInterruptHandler.hpp"
+namespace Psecom {
+namespace Peripheria {
 
-/*class Interrupt
+class Interrupt
 {
-public:
-	Interrupt();
-};*/
-
-struct Interrupt
-{
-	size_t start;
-	size_t cur_pos;
+private:
+	pAbstractInterruptHandler handler;
 	bool maskable;
-	Interrupt(size_t starter,bool masking) : start(starter),cur_pos(0),maskable(masking)
-	{
-	}
+	bool own_thread;
+	size_t memstart,mempos;
+public:
+	void InterruptTheState();
+	static void* ThreadInterrupt(void* p);
+	void InterruptWrapper();
+	Interrupt(pAbstractInterruptHandler handle,bool maskability, bool threaded, size_t starter, size_t position);
 };
 
-typedef std::stack<Interrupt> InterruptStack;
-typedef std::shared_ptr<InterruptStack> InterruptQueue;
-
-
+}
+}
 #endif // INTERRUPT_HPP
