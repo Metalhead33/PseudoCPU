@@ -4,6 +4,8 @@
 #include "AbstractMemoryHandler.hpp"
 #include "AbstractProcessorState.hpp"
 #include "AbstractInterruptHandler.hpp"
+#include <SFML/System/Time.hpp>
+
 namespace Psecom {
 
 template <typename RegisterSize> class AbstractProcessorCore : public Peripheria::AbstractInterruptHandler
@@ -14,7 +16,16 @@ public:
 private:
 	Memory::sAbstractMemoryHandler memory;
 	std::stack<State> states;
+	sf::Time speed;
+	//sf::Clock last_check;
 public:
+	// Clock access
+
+	sf::Time GetSpeed() { return speed; }
+	void SetSpeed(sf::Time setto) {speed = setto;}
+	//sf::Time CheckRuntime() { return last_check.getElapsedTime(); }
+	//sf::Time RestartRuntime() { return last_check.restart(); }
+
 	// Basic access
 	Memory::sAbstractMemoryHandler GetMemory() { return memory; }
 	void SetMemory(Memory::sAbstractMemoryHandler setto) { memory = setto; }
@@ -79,9 +90,10 @@ public:
 
 
 	// Constructors
-	AbstractProcessorCore(Memory::sAbstractMemoryHandler setmem)
+	AbstractProcessorCore(Memory::sAbstractMemoryHandler setmem, sf::Time newspeed)
 		: memory(setmem)
 	{
+		speed = newspeed;
 		PushState(0,0,0,false);
 	}
 };

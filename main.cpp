@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 {
 	Io::sAbstractFwrite writer(new Io::StdStream("/home/metalhead33/memtest.raw",false));
 	Psecom::Memory::sAbstractMemoryHandler mem(new Psecom::Memory::SharedMemoryAccess(machine_code,sizeof(machine_code)));
-	Arch::DeaDea16::ProccessorType processor(Arch::DeaDea16::CastToAbstract(),mem);
+	Arch::DeaDea16::ProccessorType processor(Arch::DeaDea16::CastToAbstract(),mem,sf::microseconds(50));
 	int i = processor.Run();
 	std::dynamic_pointer_cast<Psecom::Memory::SharedMemoryAccess>(mem)->MemoryDump(writer);
 	//Arch::DeaDea16::ProccessorType processor(Arch::DeaDea16::CastToAbstract(),static_pointer_cast<Psecom::Memory::AbstractMemoryHandler>(mem));

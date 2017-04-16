@@ -18,8 +18,8 @@ public:
 	const pCore CastBack() { return static_cast<pCore>(this); }
 	int Run() { return m_arch->Run(CastBack() ); }
 
-	AbstractProcessor(sArch architecture, Memory::sAbstractMemoryHandler setmem)
-		: CoreType(setmem)
+	AbstractProcessor(sArch architecture, Memory::sAbstractMemoryHandler setmem, sf::Time newspeed)
+		: CoreType(setmem,newspeed)
 	{
 		m_arch = architecture;
 		CastBack()->PushState();

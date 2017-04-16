@@ -2,6 +2,8 @@
 #define ABSTRACTPROCESSOR_ARCH_HPP
 #include "AbstractProcessorCore.hpp"
 #include <map>
+#include <SFML/System/Clock.hpp>
+
 namespace Psecom {
 
 enum Pstate
@@ -34,8 +36,11 @@ public:
 AbsProcFUNC(int,Run)(RegisterStorage storage)
 {
 	Pstate status = KEEP_GOING;
+	sf::Clock cycles;
 	//RegisterStorage storage = CastBack();
 	do{
+	while(cycles.getElapsedTime() < storage->GetSpeed());
+	cycles.restart();
 	OpcodeSize* ipointer = static_cast<OpcodeSize*>(storage->AccessMemoryAtPC());
 	if(!ipointer) return -1;
 	storage->IncrementProgramCounter(sizeof(OpcodeSize));
