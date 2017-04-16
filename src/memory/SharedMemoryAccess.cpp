@@ -8,7 +8,11 @@ void* SharedMemoryAccess::AccessMemoryAt(size_t loc)
 	if(loop) return static_cast<void*>(&memspace->at(loc % memspace->size()));
 	else
 	{
-		if(loc >= memspace->size()) throw std::out_of_range("Location larger than size of memory space.");
+		if(loc >= memspace->size())
+		{
+			std::string error = "Location (" + std::to_string(loc) + ") is larger than the size of memory space (" + std::to_string(memspace->size()) + ").";
+			throw std::out_of_range(error);
+		}
 		else return static_cast<void*>(&memspace->at(loc));
 	}
 }

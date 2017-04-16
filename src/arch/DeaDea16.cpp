@@ -1,4 +1,6 @@
 #include "arch/DeaDea16.hpp"
+#include <stdexcept>
+#include <iostream>       // std::cerr
 
 namespace Arch {
 sDeaDea16 DeaDea16::__instance = nullptr;
@@ -77,95 +79,167 @@ Psecom::Pstate DeaDea16::inSWITCH(RegisterStorage str)
 
 Psecom::Pstate DeaDea16::inLOADACA8(RegisterStorage str)
 {
+	try {
 	uint8_t* tmp = static_cast<uint8_t*>(str->AccessMemoryAtPC());
 	str->SetAccumulatorRegister((uint16_t)*tmp);
 	str->IncrementProgramCounter(sizeof(uint8_t));
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Loads 8-bit number into the accumulator register. A single 1-byte operand.
 Psecom::Pstate DeaDea16::inLOADARA8(RegisterStorage str)
 {
+	try {
 	uint8_t* tmp = static_cast<uint8_t*>(str->AccessMemoryAtPC());
 	str->SetArgumentRegister((uint16_t)*tmp);
 	str->IncrementProgramCounter(sizeof(uint8_t));
 	return Psecom::KEEP_GOING;
-} // Loads 8-bit number into the argument register. A single 1-byte operand.
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
+}
 Psecom::Pstate DeaDea16::inLOADACP8(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	uint8_t* tmp = static_cast<uint8_t*>(str->AccessMemoryAt(*tmp_ptr));
 	str->SetAccumulatorRegister((uint16_t)*tmp);
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Loads 8-bit number into the accumulator register. A single 2-byte operand (pointer).
 Psecom::Pstate DeaDea16::inLOADARP8(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	uint8_t* tmp = static_cast<uint8_t*>(str->AccessMemoryAt(*tmp_ptr));
 	str->SetArgumentRegister((uint16_t)*tmp);
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Loads 8-bit number into the argument register. A single 2-byte operand (pointer).
 Psecom::Pstate DeaDea16::inLOADACA16(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->SetAccumulatorRegister(*tmp);
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Loads 16-bit number into the accumulator register. A single 2-byte operand.
 Psecom::Pstate DeaDea16::inLOADARA16(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->SetArgumentRegister(*tmp);
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Loads 16-bit number into the argument register. A single 2-byte operand.
 Psecom::Pstate DeaDea16::inLOADACP16(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	uint16_t* tmp = static_cast<uint16_t*>(str->AccessMemoryAt(*tmp_ptr));
 	str->SetAccumulatorRegister(*tmp);
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Loads 16-bit number into the accumulator register. A single 2-byte operand (pointer).
 Psecom::Pstate DeaDea16::inLOADARP16(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	uint16_t* tmp = static_cast<uint16_t*>(str->AccessMemoryAt(*tmp_ptr));
 	str->SetArgumentRegister(*tmp);
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Loads 16-bit number into the argument register. A single 2-byte operand (pointer).
 Psecom::Pstate DeaDea16::inSTORAC8(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	uint8_t* tmp = static_cast<uint8_t*>(str->AccessMemoryAt(*tmp_ptr));
 	*tmp = (uint8_t)str->GetAccumulatorRegister();
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Copies 8-bit number from accumulator register to said memory block. A single 2-byte operand (pointer).
 Psecom::Pstate DeaDea16::inSTORAR8(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	uint8_t* tmp = static_cast<uint8_t*>(str->AccessMemoryAt(*tmp_ptr));
 	*tmp = (uint8_t)str->GetArgumentRegister();
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Copies 8-bit number from argument register to said memory block. A single 2-byte operand (pointer).
 Psecom::Pstate DeaDea16::inSTORAC16(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	uint16_t* tmp = static_cast<uint16_t*>(str->AccessMemoryAt(*tmp_ptr));
 	*tmp = str->GetAccumulatorRegister();
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Copies 16-bit number from accumulator register to said memory block. A single 2-byte operand (pointer).
 Psecom::Pstate DeaDea16::inSTORAR16(RegisterStorage str)
 {
+	try {
 	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
 	str->IncrementProgramCounter(sizeof(uint16_t));
 	uint16_t* tmp = static_cast<uint16_t*>(str->AccessMemoryAt(*tmp_ptr));
 	*tmp = str->GetArgumentRegister();
 	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
 } // Copies 16-bit number from argument register to said memory block. A single 2-byte operand (pointer).
 
 }

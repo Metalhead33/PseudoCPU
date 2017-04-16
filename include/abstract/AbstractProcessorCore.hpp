@@ -68,6 +68,7 @@ public:
 	void StoreFromAccRegister(RegisterSize loc) { *(memory->CastAccessAt<RegisterSize>((size_t)(loc + GetMemBegin()))) = GetAccumulatorRegister(); }
 	void StoreFromArgRegister(RegisterSize loc) { *(memory->CastAccessAt<RegisterSize>((size_t)(loc + GetMemBegin()))) = GetArgumentRegister(); }
 
+	void Goto(RegisterSize loc) { SetProgramCounter(GetMemBegin() + loc); }
 	void* AccessMemoryAtPC() { return AccessMemoryAt(GetProgramCounter()); }
 
 	// Interrupt
