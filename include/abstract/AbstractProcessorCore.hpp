@@ -5,6 +5,7 @@
 #include "AbstractProcessorState.hpp"
 #include "AbstractInterruptHandler.hpp"
 #include <SFML/System/Time.hpp>
+#include <cmath>
 
 namespace Psecom {
 
@@ -94,6 +95,18 @@ public:
 		: memory(setmem)
 	{
 		speed = newspeed;
+		PushState(0,0,0,false);
+	}
+	AbstractProcessorCore(Memory::sAbstractMemoryHandler setmem, double mips) // MIPS - million instructions per second. Roughly corresponds to instructions per microsecond.
+		: memory(setmem)
+	{
+		speed = sf::microseconds((unsigned long)ceil(1.00/mips));
+		PushState(0,0,0,false);
+	}
+	AbstractProcessorCore(Memory::sAbstractMemoryHandler setmem, double mips_at_1mhz, double mhz) // Megaherz
+		: memory(setmem)
+	{
+		speed = sf::microseconds((unsigned long)ceil(1.00/(mips_at_1mhz*mhz)));
 		PushState(0,0,0,false);
 	}
 };

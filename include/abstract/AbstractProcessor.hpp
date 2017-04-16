@@ -22,7 +22,16 @@ public:
 		: CoreType(setmem,newspeed)
 	{
 		m_arch = architecture;
-		CastBack()->PushState();
+	}
+	AbstractProcessor(sArch architecture, Memory::sAbstractMemoryHandler setmem, double mips)
+		: CoreType(setmem,mips)
+	{
+		m_arch = architecture;
+	}
+	AbstractProcessor(sArch architecture, Memory::sAbstractMemoryHandler setmem, double mips_at_mhz,double mhz)
+		: CoreType(setmem,mips_at_mhz,mhz)
+	{
+		m_arch = architecture;
 	}
 
 };

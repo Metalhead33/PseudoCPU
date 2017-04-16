@@ -34,4 +34,5 @@ HEADERS += \
     include/memory/SharedMemoryAccess.hpp \
     include/arch/DeaDea16.hpp \
     include/abstract/AbstractProcessorArchitecture.hpp \
-    include/abstract/AbstractProcessor.hpp
+    include/abstract/AbstractProcessor.hpp \
+    include/arch/FrequencyLib.hpp
