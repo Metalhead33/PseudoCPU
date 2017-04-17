@@ -9,10 +9,10 @@ DEFINE_CLASS(DeaDea16)
 class DeaDea16 : public Psecom::AbstractProcessorArchitecture<uint8_t,uint16_t>
 {
 private:
-	DeaDea16();
 	static sDeaDea16 __instance;
 	//static pDeaDea16 __instance;
 public:
+	DeaDea16(); // Please don't ever use it. It is only kept there to ensure that the class can be inherited.
 	static sDeaDea16 instance();
 	//static pDeaDea16 instance();
 	typedef Psecom::AbstractProcessorArchitecture<uint8_t,uint16_t> AbstractCpuType;
@@ -68,7 +68,21 @@ public:
 		_EGREATER,
 		_LNOT,
 		_LOR,
-		_LAND
+		_LAND,
+
+		// Control flow
+		_IF,
+		_IFN,
+		_FUNC,
+		_MFUNC,
+
+		// Misc
+		_MEMS,
+		_SPEED,
+		_SPEEDG,
+		_WAIT,
+		_WAITI,
+		_WAITS
 	};
 
 	// HERE COME ALL THE FUNCTIONS
@@ -123,7 +137,19 @@ public:
 	static Psecom::Pstate inLOR(RegisterStorage str); // Logical OR. No operands.
 	static Psecom::Pstate inLAND(RegisterStorage str); // Logical AND. No operands.
 
+	// Control flow
+	static Psecom::Pstate inIF(RegisterStorage str); // If. Checks accumulator. Jumps to operand (16-bit pointer) if true.
+	static Psecom::Pstate inIFN(RegisterStorage str); // If not. Checks accumulator. Jumps to operand (16-bit pointer) if false.
+	static Psecom::Pstate inFUNC(RegisterStorage str); // Starts a new state. Takes one 16-bit operand (pointer). Gives global access.
+	static Psecom::Pstate inMFUNC(RegisterStorage str); // Starts a new state. Takes one 16-bit operand (pointer). Sets memstart to the place where access it, effectively allowing only local access.
 
+	// Misc
+	static Psecom::Pstate inMEMS(RegisterStorage str); // Takes memory size into the accumulator register. No operands.
+	static Psecom::Pstate inSPEED(RegisterStorage str); // Changes the speed by altering the number of microseconds that we have to wait between each instruction to take place. No operand - it takes from the argument register.
+	static Psecom::Pstate inSPEEDG(RegisterStorage str); // Takes the "speed" (amount of time that we have to wait between instructions) onto the accumulator register.
+	static Psecom::Pstate inWAIT(RegisterStorage str); // Waits [argument register] microseconds.
+	static Psecom::Pstate inWAITI(RegisterStorage str); // Waits [argument register] miliseconds.
+	static Psecom::Pstate inWAITS(RegisterStorage str); // Waits [argument register] seconds.
 
 };
 }

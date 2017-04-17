@@ -48,6 +48,18 @@ DeaDea16::DeaDea16()
 	RegisterInstruction(&inLNOT,_LNOT);
 	RegisterInstruction(&inLOR,_LOR);
 	RegisterInstruction(&inLAND,_LAND);
+	// Control flow
+	RegisterInstruction(&inIF,_IF);
+	RegisterInstruction(&inIFN,_IFN);
+	RegisterInstruction(&inFUNC,_FUNC);
+	RegisterInstruction(&inMFUNC,_MFUNC);
+	// Misc
+	RegisterInstruction(&inMEMS,_MEMS);
+	RegisterInstruction(&inSPEED,_SPEED);
+	RegisterInstruction(&inSPEEDG,_SPEEDG);
+	RegisterInstruction(&inWAIT,_WAIT);
+	RegisterInstruction(&inWAITI,_WAITI);
+	RegisterInstruction(&inWAITS,_WAITS);
 }
 /*pDeaDea16 DeaDea16::instance()
 {
@@ -402,5 +414,99 @@ Psecom::Pstate DeaDea16::inLAND(RegisterStorage str)
 	str->SetAccumulatorRegister( str->GetAccumulatorRegister() && str->GetArgumentRegister() );
 	return Psecom::KEEP_GOING;
 } // Logical AND. No operands.
+
+Psecom::Pstate DeaDea16::inIF(RegisterStorage str)
+{
+	try {
+	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
+	str->IncrementProgramCounter(sizeof(uint16_t));
+	if(str->GetAccumulatorRegister()) str->Goto(*tmp_ptr);
+	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
+} // If. Checks accumulator. Jumps to operand (16-bit pointer) if true.
+Psecom::Pstate DeaDea16::inIFN(RegisterStorage str)
+{
+	try {
+	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
+	str->IncrementProgramCounter(sizeof(uint16_t));
+	if(!str->GetAccumulatorRegister()) str->Goto(*tmp_ptr);
+	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
+} // If not. Checks accumulator. Jumps to operand (16-bit pointer) if false.
+Psecom::Pstate DeaDea16::inFUNC(RegisterStorage str)
+{
+	try {
+	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
+	str->IncrementProgramCounter(sizeof(uint16_t));
+	str->InterruptState(0, *tmp_ptr,true);
+	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
+} // Starts a new state. Takes one 16-bit operand (pointer). Gives global access.
+Psecom::Pstate DeaDea16::inMFUNC(RegisterStorage str)
+{
+	try {
+	uint16_t* tmp_ptr = static_cast<uint16_t*>(str->AccessMemoryAtPC());
+	str->IncrementProgramCounter(sizeof(uint16_t));
+	str->InterruptState(*tmp_ptr,*tmp_ptr,true);
+	return Psecom::KEEP_GOING;
+	} catch(std::out_of_range exp)
+	{
+		std::cerr << "COMPUTER PANIC!\nShutting down.\nReason: Out of Range Error - " << exp.what() << '\n';
+		return Psecom::PANIC;
+	}
+} // Starts a new state. Takes one 16-bit operand (pointer). Sets memstart to the place where access it, effectively allowing only local access.
+
+
+Psecom::Pstate DeaDea16::inMEMS(RegisterStorage str)
+{
+	str->SetAccumulatorRegister( str->GetMemory()->GetSize() );
+	return Psecom::KEEP_GOING;
+}
+Psecom::Pstate DeaDea16::inSPEED(RegisterStorage str)
+{
+	str->SetSpeed(sf::microseconds(str->GetArgumentRegister()  )  );
+	return Psecom::KEEP_GOING;
+}
+Psecom::Pstate DeaDea16::inSPEEDG(RegisterStorage str)
+{
+	str->SetAccumulatorRegister(str->GetSpeed().asMicroseconds());
+	return Psecom::KEEP_GOING;
+}
+Psecom::Pstate DeaDea16::inWAIT(RegisterStorage str)
+{
+	sf::Time time = sf::microseconds(str->GetArgumentRegister() );
+	sf::Clock begin;
+	while(begin.getElapsedTime() < time);
+	// str->SetSpeed(sf::microseconds(str->GetArgumentRegister()  )  );
+	return Psecom::KEEP_GOING;
+}
+Psecom::Pstate DeaDea16::inWAITI(RegisterStorage str)
+{
+	sf::Time time = sf::milliseconds(str->GetArgumentRegister() );
+	sf::Clock begin;
+	while(begin.getElapsedTime() < time);
+	// str->SetSpeed(sf::microseconds(str->GetArgumentRegister()  )  );
+	return Psecom::KEEP_GOING;
+}
+Psecom::Pstate DeaDea16::inWAITS(RegisterStorage str)
+{
+	sf::Time time = sf::seconds(str->GetArgumentRegister() );
+	sf::Clock begin;
+	while(begin.getElapsedTime() < time);
+	// str->SetSpeed(sf::microseconds(str->GetArgumentRegister()  )  );
+	return Psecom::KEEP_GOING;
+}
 
 }
