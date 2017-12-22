@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   AbstractFwrite.hpp
  * Author: metalhead33
  *
@@ -8,9 +8,7 @@
 #ifndef ABSTRACTFWRITE_HPP
 #define ABSTRACTFWRITE_HPP
 #include <cstdint>
-#include "Global.hpp"
-namespace Io {
-DEFINE_CLASS(AbstractFwrite)
+#include <memory>
 
 class AbstractFwrite {
 public:
@@ -19,8 +17,8 @@ public:
 	virtual int64_t rel_rewind(int64_t position) = 0;
 	virtual int64_t abs_rewind(int64_t position) = 0;
 private:
-
 };
-}
-#endif /* ABSTRACTFWRITE_HPP */
 
+typedef AbstractFwrite* pAbstractFwrite;
+typedef std::shared_ptr<AbstractFwrite> sAbstractFwrite;
+#endif /* ABSTRACTFWRITE_HPP */
