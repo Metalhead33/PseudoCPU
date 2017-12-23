@@ -1,6 +1,7 @@
 #include "include/arch/Arrpee8.hpp"
 #include <cstring>
 
+Arrpee8::sInstructionSet Arrpee8::singleton = 0;
 Arrpee8::sInstructionSet Arrpee8::getSingleton()
 {
 	if(!singleton) singleton = sInstructionSet(new Arrpee8());
@@ -173,7 +174,7 @@ ComputerState Arrpee8::__SHFA(StatePointer STATE)
 ComputerState Arrpee8::__LDACD8(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	STATE->setAccumulator(*static_cast<uint8_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
+	STATE->setAccumulator(*reinterpret_cast<uint8_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
 	STATE->IncrementPC(sizeof(uint8_t));
 	return GO_TO;
 }
@@ -181,7 +182,7 @@ ComputerState Arrpee8::__LDACD8(StatePointer STATE)
 ComputerState Arrpee8::__LDARD8(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	STATE->setArgument(*static_cast<uint8_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
+	STATE->setArgument(*reinterpret_cast<uint8_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
 	STATE->IncrementPC(sizeof(uint8_t));
 	return GO_TO;
 }
@@ -189,7 +190,7 @@ ComputerState Arrpee8::__LDARD8(StatePointer STATE)
 ComputerState Arrpee8::__LDACD16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	STATE->setAccumulator(*static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
+	STATE->setAccumulator(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
 	STATE->IncrementPC(sizeof(uint16_t));
 	return GO_TO;
 }
@@ -197,7 +198,7 @@ ComputerState Arrpee8::__LDACD16(StatePointer STATE)
 ComputerState Arrpee8::__LDARD16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	STATE->setArgument(*static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
+	STATE->setArgument(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
 	STATE->IncrementPC(sizeof(uint16_t));
 	return GO_TO;
 }
@@ -205,7 +206,7 @@ ComputerState Arrpee8::__LDARD16(StatePointer STATE)
 ComputerState Arrpee8::__LDSPD16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	STATE->setStackPointer(*static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
+	STATE->setStackPointer(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
 	STATE->IncrementPC(sizeof(uint16_t));
 	return GO_TO;
 }
@@ -213,7 +214,7 @@ ComputerState Arrpee8::__LDSPD16(StatePointer STATE)
 ComputerState Arrpee8::__LDSMD16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	STATE->setStackMaxSize(*static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
+	STATE->setStackMaxSize(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
 	STATE->IncrementPC(sizeof(uint16_t));
 	return GO_TO;
 }
@@ -221,7 +222,7 @@ ComputerState Arrpee8::__LDSMD16(StatePointer STATE)
 ComputerState Arrpee8::__LDSCD16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	STATE->setStackCurSize(*static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
+	STATE->setStackCurSize(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)) );
 	STATE->IncrementPC(sizeof(uint16_t));
 	return GO_TO;
 }
@@ -229,137 +230,137 @@ ComputerState Arrpee8::__LDSCD16(StatePointer STATE)
 ComputerState Arrpee8::__LDACP8_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	STATE->setAccumulator(*static_cast<uint8_t*>(STATE->getMemoryPoint(temp)) );
+	STATE->setAccumulator(*reinterpret_cast<uint8_t*>(STATE->getMemoryPoint(temp)) );
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__LDARP8_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	STATE->setArgument(*static_cast<uint8_t*>(STATE->getMemoryPoint(temp)) );
+	STATE->setArgument(*reinterpret_cast<uint8_t*>(STATE->getMemoryPoint(temp)) );
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__LDACP16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	STATE->setAccumulator(*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
+	STATE->setAccumulator(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__LDARP16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	STATE->setArgument(*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
+	STATE->setArgument(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__LDSPP16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	STATE->setStackPointer(*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
+	STATE->setStackPointer(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__LDSMP16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	STATE->setStackMaxSize(*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
+	STATE->setStackMaxSize(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__LDSCP16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	STATE->setStackCurSize(*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
+	STATE->setStackCurSize(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) );
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__STAC8_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	*static_cast<uint8_t*>(STATE->getMemoryPoint(temp)) = STATE->getAccumulator().buf[0];
+	*reinterpret_cast<uint8_t*>(STATE->getMemoryPoint(temp)) = STATE->getAccumulator().buf[0];
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__STAR8_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	*static_cast<uint8_t*>(STATE->getMemoryPoint(temp)) = STATE->getArgument().buf[0];
+	*reinterpret_cast<uint8_t*>(STATE->getMemoryPoint(temp)) = STATE->getArgument().buf[0];
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__STAC16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getAccumulator().org;
+	*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getAccumulator().org;
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__STAR16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getArgument().org;
+	*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getArgument().org;
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__STSP16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getStackPointer().org;
+	*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getStackPointer().org;
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__STSM16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getStackMaxSize().org;
+	*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getStackMaxSize().org;
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__STSC16_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t temp = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t temp = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	*static_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getStackCurSize().org;
+	*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(temp)) = STATE->getStackCurSize().org;
 	return GO_TO;
 }
 
 ComputerState Arrpee8::__MEMCPY16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t source = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t source = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	uint16_t destination = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t destination = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
-	uint16_t ammount = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t ammount = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	STATE->IncrementPC(sizeof(uint16_t));
 	memcpy(STATE->getMemoryPoint(destination),STATE->getMemoryPoint(source),ammount);
 	return GO_TO;
@@ -410,7 +411,7 @@ ComputerState Arrpee8::__STB(StatePointer STATE)
 ComputerState Arrpee8::__GOTO_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	STATE->setProgramCounter(*static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)));
+	STATE->setProgramCounter(*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org)));
 	return GO_TO;
 }
 
@@ -419,11 +420,11 @@ ComputerState Arrpee8::__IFJM_16(StatePointer STATE)
 	STATE->IncrementPC(sizeof(uint8_t));
 	if(STATE->getAccumulator().org)
 	{
-		uint16_t newPlace = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+		uint16_t newPlace = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 		uint16_t stackPlace = STATE->getStackPointer().org + (STATE->getStackCurSize().org * sizeof(uint16_t));
 		STATE->IncrementPC(sizeof(uint16_t));
 		STATE->setStackCurSize(STATE->getStackCurSize().org + 1);
-		*static_cast<uint16_t*>(STATE->getMemoryPoint(stackPlace)) = STATE->getProgramCounter().org;
+		*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(stackPlace)) = STATE->getProgramCounter().org;
 		STATE->setProgramCounter(newPlace);
 	}
 	else STATE->IncrementPC(sizeof(uint16_t));
@@ -433,11 +434,11 @@ ComputerState Arrpee8::__IFJM_16(StatePointer STATE)
 ComputerState Arrpee8::__SUBR_16(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
-	uint16_t newPlace = *static_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
+	uint16_t newPlace = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(STATE->getProgramCounter().org));
 	uint16_t stackPlace = STATE->getStackPointer().org + (STATE->getStackCurSize().org * sizeof(uint16_t));
 	STATE->IncrementPC(sizeof(uint16_t));
 	STATE->setStackCurSize(STATE->getStackCurSize().org + 1);
-	*static_cast<uint16_t*>(STATE->getMemoryPoint(stackPlace)) = STATE->getProgramCounter().org;
+	*reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(stackPlace)) = STATE->getProgramCounter().org;
 	STATE->setProgramCounter(newPlace);
 	return GO_TO;
 }
@@ -446,7 +447,7 @@ ComputerState Arrpee8::__RETURN(StatePointer STATE)
 {
 	STATE->IncrementPC(sizeof(uint8_t));
 	uint16_t newPlace = STATE->getStackPointer().org + ((STATE->getStackCurSize().org - 1) * sizeof(uint16_t));
-	uint16_t newPointer = *static_cast<uint16_t*>(STATE->getMemoryPoint(newPlace));
+	uint16_t newPointer = *reinterpret_cast<uint16_t*>(STATE->getMemoryPoint(newPlace));
 	STATE->setStackCurSize(STATE->getStackCurSize().org - 1);
 	STATE->setProgramCounter(newPointer);
 	return GO_TO;

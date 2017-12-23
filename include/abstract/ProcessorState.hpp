@@ -1,6 +1,7 @@
 #ifndef PROCESSOR_STATE_HPP
 #define PROCESSOR_STATE_HPP
 #include "include/mem/SharedMemory.hpp"
+#include <iostream>
 
 template<typename RegisterSize, typename AddressSize> class ProcessorState
 {
@@ -17,7 +18,7 @@ private:
 	AWORD JAIL;
 	AWORD PROGRAM_COUNTER;
 public:
-	void IncrementPC(AddressSize offset=1) { PROGRAM_COUNTER->org += offset; }
+	void IncrementPC(AddressSize offset=1) { PROGRAM_COUNTER.org += offset; }
 	ProcessorState(size_t size)
 		: memSpace(new SharedMemory(size))
 	{
@@ -27,6 +28,7 @@ public:
 		STACK_CUR_SIZE.org = 0;
 		STACK_MAX_SIZE.org = 0;
 		JAIL.org = 0;
+		PROGRAM_COUNTER.org = 0;
 	}
 	ProcessorState(SharedMemoryBuffer originalMemory)
 		: memSpace(originalMemory)
@@ -37,6 +39,7 @@ public:
 		STACK_CUR_SIZE.org = 0;
 		STACK_MAX_SIZE.org = 0;
 		JAIL.org = 0;
+		PROGRAM_COUNTER.org = 0;
 	}
 	void* getMemoryPoint(size_t offset)
 	{

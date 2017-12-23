@@ -28,7 +28,7 @@ public:
 	InstructionSet(OpcodeSize maxInstructionNumber)
 		: instructions(maxInstructionNumber)
 	{
-	   std::fill(instructions.begin(), instructions.end(), 0);
+	   std::fill(instructions.begin(), instructions.end(), reinterpret_cast<Instruction>(static_cast<size_t>(0)));
 	}
 	virtual ~InstructionSet() {;}
 	Instruction fetchInstruction(OpcodeSize opcode)

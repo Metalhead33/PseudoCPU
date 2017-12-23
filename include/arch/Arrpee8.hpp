@@ -5,8 +5,9 @@
 class Arrpee8 : public InstructionSet<uint8_t,uint16_t,uint16_t>
 {
 private:
-	sInstructionSet singleton;
+	static sInstructionSet singleton;
 	Arrpee8();
+public:
 	enum OPCODES : uint8_t
 	{
 		// Very basic control - none of these have an argument
@@ -79,7 +80,6 @@ private:
 		RETURN, // 178 - Returns to the last stack.
 		PAD // 179 - padding used for size, not a real instruction
 	};
-public:
 	// Very basic control - none of these have an argument
 	static ComputerState __NOP(StatePointer STATE);
 	static ComputerState __POFF(StatePointer STATE);
@@ -150,7 +150,7 @@ public:
 	static ComputerState __RETURN(StatePointer STATE);
 
 	// Get the singleton
-	sInstructionSet getSingleton();
+	static sInstructionSet getSingleton();
 };
 
 #endif // ARRPEE8_HPP

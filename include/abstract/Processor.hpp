@@ -1,6 +1,8 @@
 #ifndef PROCESSOR_HPP
 #define PROCESSOR_HPP
 #include "InstructionSet.hpp"
+#include <stdexcept>
+#include <cstdio>
 #include <ctime>
 
 template<typename OpcodeSize, typename RegisterSize, typename AddressSize> class Processor
@@ -28,6 +30,7 @@ public:
 	}
 	long getWaitingTime() { return waitingTime; }
 	void setWaitingTime(long setto) { waitingTime = setto; }
+	State* getState() { return &processorState; }
 	void startProcessing()
 	{
 		clockid_t clock;
@@ -43,10 +46,13 @@ public:
 		clock_settime(clock,&nullClock);
 		bool toExit = false;
 		do {
-			Instruction temporaryInstruction = instructionSet->fetchInstruction(*static_cast<OpcodeSize*>(processorState.getMemoryPoint(processorState.getProgramCounter())) );
+			// Useless now, previously used for debugging: // printf("Program Counter: 0x%04X |\t", processorState.getProgramCounter().org);
+			OpcodeSize opcode = *static_cast<OpcodeSize*>(processorState.getMemoryPoint(processorState.getProgramCounter().org));
+			// Useless now, previously used for debugging: // printf("Executing Opcode 0x%04X!\n", opcode);
+			Instruction temporaryInstruction = instructionSet->fetchInstruction(opcode);
 			if(temporaryInstruction)
 			{
-				ComputerState tempState = temporaryInstruction(&processorState);
+				ComputerState tempState = (*temporaryInstruction)(&processorState);
 				switch(tempState)
 				{
 				case GO_ON:
@@ -69,6 +75,7 @@ public:
 				case ERROR:
 				{
 					toExit = true;
+					throw std::runtime_error("Error encountered while processing!");
 					break;
 				}
 				}

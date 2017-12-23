@@ -22,6 +22,7 @@ HEADERS += \
 SOURCES += \
     src/mem/SharedMemory.cpp \
     StdStream.cpp \
-    src/arch/Arrpee8.cpp
+    src/arch/Arrpee8.cpp \
+    main.cpp
 
 DISTFILES +=
