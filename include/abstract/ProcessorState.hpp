@@ -17,6 +17,7 @@ private:
 	AWORD JAIL;
 	AWORD PROGRAM_COUNTER;
 public:
+	void IncrementPC(AddressSize offset=1) { PROGRAM_COUNTER->org += offset; }
 	ProcessorState(size_t size)
 		: memSpace(new SharedMemory(size))
 	{

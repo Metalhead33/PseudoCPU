@@ -52,7 +52,8 @@ public:
 				case GO_ON:
 				{
 					toExit = false;
-					processorState.setProgramCounter(processorState.getProgramCounter().org+1);
+					// processorState.setProgramCounter(processorState.getProgramCounter().org+1);
+					processorState.IncrementPC(sizeof(OpcodeSize));
 					break;
 				}
 				case GO_TO:
