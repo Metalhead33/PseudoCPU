@@ -13,11 +13,15 @@ HEADERS += \
     include/mem/Bitbuffer.hpp \
     include/abstract/AbstractFread.hpp \
     include/abstract/AbstractFwrite.hpp \
-    include/arch/ProcessorState.hpp \
-    include/arch/InstructionSet.hpp \
-    include/arch/Processor.hpp
+    StdStream.hpp \
+    include/abstract/ProcessorState.hpp \
+    include/abstract/InstructionSet.hpp \
+    include/abstract/Processor.hpp \
+    include/arch/Arrpee8.hpp
 
 SOURCES += \
-    src/mem/SharedMemory.cpp
+    src/mem/SharedMemory.cpp \
+    StdStream.cpp \
+    src/arch/Arrpee8.cpp
 
 DISTFILES +=
