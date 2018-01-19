@@ -1,14 +1,8 @@
-/*
- * File:   AbstractFread.hpp
- * Author: metalhead33
- *
- * Created on 2017. február 23., 17:17
- */
-#ifndef ABSTRACTFREAD_HPP
-#define ABSTRACTFREAD_HPP
+#pragma once
 #include <cstdint>
-#include <memory>
+#include "Global.hpp"
 
+DEFINE_CLASS(AbstractFread)
 class AbstractFread {
 public:
 	virtual ~AbstractFread() {;}
@@ -19,6 +13,3 @@ public:
 	virtual char getc() = 0;
 private:
 };
-typedef AbstractFread* pAbstractFread;
-typedef std::shared_ptr<AbstractFread> sAbstractFread;
-#endif /* ABSTRACTFREAD_HPP */

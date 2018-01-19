@@ -1,15 +1,8 @@
-/*
- * File:   AbstractFwrite.hpp
- * Author: metalhead33
- *
- * Created on 2017. február 23., 17:38
- */
-
-#ifndef ABSTRACTFWRITE_HPP
-#define ABSTRACTFWRITE_HPP
+#pragma once
 #include <cstdint>
-#include <memory>
+#include "Global.hpp"
 
+DEFINE_CLASS(AbstractFwrite)
 class AbstractFwrite {
 public:
 	virtual ~AbstractFwrite() {;}
@@ -18,7 +11,3 @@ public:
 	virtual int64_t abs_rewind(int64_t position) = 0;
 private:
 };
-
-typedef AbstractFwrite* pAbstractFwrite;
-typedef std::shared_ptr<AbstractFwrite> sAbstractFwrite;
-#endif /* ABSTRACTFWRITE_HPP */
