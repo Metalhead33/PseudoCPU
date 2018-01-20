@@ -24,3 +24,14 @@ public:
 		PAD
 	};
 };
+
+class Arrpee8plus_Machine : public Processor<uint8_t, uint16_t, uint8_t>
+{
+public:
+	typedef Processor<uint8_t, uint16_t, uint8_t> PROCTYPE;
+	Arrpee8plus_Machine(sAbstractMemoryDevice newMemory, timespec& newWaitingTime)
+		: PROCTYPE(newMemory,Arrpee8plus::getSingleton(),newWaitingTime,8,8 - AbstractProcessor::PAD)
+	{
+		;
+	}
+};

@@ -48,8 +48,8 @@ struct nibble {
 	 uint8_t nib : 4;
 };
 struct nibbles {
-	 uint8_t lower : 4;
-	 uint8_t upper : 4;
+	uint8_t upper : 4;
+	uint8_t lower : 4;
 };
 
 typedef ByteField<uint8_t> word8;

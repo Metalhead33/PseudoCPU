@@ -1,5 +1,6 @@
 #pragma once
 #include "include/abstract/AbstractArchitecture.hpp"
+#include "include/abstract/ProcessorTemplate.hpp"
 
 class Arrpee8 : public AbstractArchitecture
 {
@@ -66,4 +67,15 @@ public:
 		PAD
 	};
 
+};
+
+class Arrpee8_Machine : public Processor<uint8_t, uint8_t, uint8_t>
+{
+public:
+	typedef Processor<uint8_t, uint8_t, uint8_t> PROCTYPE;
+	Arrpee8_Machine(sAbstractMemoryDevice newMemory, timespec& newWaitingTime)
+		: PROCTYPE(newMemory,Arrpee8::getSingleton(),newWaitingTime,8,8 - AbstractProcessor::PAD)
+	{
+		;
+	}
 };

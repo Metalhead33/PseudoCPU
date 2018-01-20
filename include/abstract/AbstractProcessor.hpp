@@ -19,7 +19,7 @@ class AbstractProcessor
 	virtual const size_t getWordSize() const = 0;
 	virtual const size_t getAddressSize() const = 0;
 	virtual const size_t getOpcodeSize() const = 0;
-	virtual size_t getOpcodeAtPC() const = 0;
+	virtual size_t getOpcodeAtPC() = 0;
 
 	enum SpecialAddressRegister : uint8_t
 	{

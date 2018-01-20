@@ -31,7 +31,7 @@ public:
 	virtual const size_t getWordSize() const { return sizeof(WordSize); }
 	virtual const size_t getAddressSize() const { return sizeof(AddressSize); }
 	virtual const size_t getOpcodeSize() const { return sizeof(OpcodeSize); }
-	virtual size_t getOpcodeAtPC() const
+	virtual size_t getOpcodeAtPC()
 	{
 		OPC tmp;
 		tmp.padding = 0;
